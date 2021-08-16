@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <br>    
+        <h2 class="text-center">Welcome</h2>
+        <br>
+        <div class="row img-fluid container-fluid text-center">
+                <div class="col-4 m-auto">
+                    <img src="{% static 'images/reddit.png' %}" alt="Image file is missing" class='img-thumbnail rounded'>
+                </div>
+        </div>
+    {% else %}
+        <br>
+        <h2 class="text-center">Please login</h2>
+        <br>
+        <div class="row img-fluid container-fluid text-center">
+            <div class="col-4 m-auto">
+                <img src="{% static 'images/reddit.png' %}" alt="Image file is missing" class='img-thumbnail rounded'>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

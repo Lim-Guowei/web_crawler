@@ -18,7 +18,7 @@ class Database:
                                                 port=port,
                                                 database=database)
 
-
+            self.__state = ""
             print("Database connected!")
 
         except mysql.connector.Error as err:
@@ -30,6 +30,14 @@ class Database:
                 print(err)
         else:
             self.cursor = self.cnx.cursor()
+
+    @property
+    def state(self):
+        return self.__state
+
+    @state.setter
+    def state(self, state: str):
+        self.__state = state
 
     def close_connection(self):
         self.cursor.close()
@@ -67,16 +75,18 @@ class Database:
                                                 user_agent=login["user_agent"],
                                                 username=login["username"]
                                                 )
-
+                print("Crawler initialized")
                 reddit_crawler.subreddit = subreddit
                 reddit_crawler.submission = submission
                 submission_data = reddit_crawler.get_info_from_submission()
+                print("Completed scanning for submission and comment data")
 
                 if submission_data:
 
                     authors = reddit_crawler.get_authors_in_submission(submission_data)
                     author_data = reddit_crawler.get_info_from_authors(authors, limit=5)
-                
+                    print("Completed scanning for author data")
+
                     submission_dict = submission_data.get("submission", None)
                     for k, v in submission_dict.items():
                         submission_id = k
@@ -190,6 +200,11 @@ class Database:
                             self.cursor.execute(add_author, author_input)
                             self.cnx.commit()
 
+                    self.__state = "Data adding successful"
+
+                else:
+                    self.__state = "Data adding failed"
+
             except OAuthException as e:
                 print("Invalid praw login details")
 
@@ -198,20 +213,37 @@ class Database:
 
         return
 
-def main():
+def add_data(subreddit, submission):
     try:
         with open("login/database_login.json") as json_file:
             login = json.load(json_file)
 
         db = Database(user=login["user"], password=login["password"], host=login["host"], port=login["port"], database=login["database"])
-        # db.insert_data("Singapore", "https://www.reddit.com/r/singapore/comments/ku4nla/for_science_122_mrt_stations_6_lrt_stations/")
-        db.insert_data("redditdev", "https://www.reddit.com/r/redditdev/comments/g6p9gu/how_to_get_all_comments_using_praw/")
-        # db.clear_all_tables()
+        db.insert_data(subreddit, submission)
         db.close_connection()
+        return db.state
 
     except FileNotFoundError:
         print("Database login details are missing")
 
-if __name__ == "__main__":
-    main()
+def delete_data():
+    try:
+        with open("login/database_login.json") as json_file:
+            login = json.load(json_file)
 
+        db = Database(user=login["user"], password=login["password"], host=login["host"], port=login["port"], database=login["database"])
+        db.clear_all_tables()
+        db.close_connection()
+        return db.state
+
+    except FileNotFoundError:
+        print("Database login details are missing")
+
+
+if __name__ == "__main__":
+    # subreddit = "Singapore"
+    # submission = "https://www.reddit.com/r/singapore/comments/ku4nla/for_science_122_mrt_stations_6_lrt_stations/"
+
+    subreddit = "redditdev"
+    submission = "https://www.reddit.com/r/redditdev/comments/g6p9gu/how_to_get_all_comments_using_praw/"
+    add_data(subreddit, submission)

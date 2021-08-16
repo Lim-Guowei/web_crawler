@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}ARA RFF{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}"
+
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <div class='container-fluid'>
+
+            {% if user.is_authenticated %}
+                <ul class='nav navbar-nav navbar-text mr-auto'>
+                    <li class="navbar-text" style='padding:5px 10px;'><a href="{% url 'show' %}">Webcrawlerapp</a></li>
+                    <li class="navbar-text" style='padding:5px 10px;'><a href="{% url 'show' %}">Coming soon</a></li>
+                </ul>
+
+                <ul class='nav navbar-nav navbar-text mx-auto'>
+                    <li class="navbar-brand"><a href="{% url 'home' %}" style="font-weight: bold;">Webcrawler</a></li>
+                </ul>
+
+                <ul class='nav navbar-nav navbar-text ml-auto'>
+                    <li class="navbar-text" style='font-size:20px; color:azure; font-family:cursive; padding:5px 25px;'>Hello, {{ user.get_username }}</li>
+                    <li class="navbar-text"><a class="btn btn-info" href="{% url 'logout' %}" style='width: 120px;'>logout</a></li>
+                </ul>
+
+            {% else %}
+            <ul class='nav navbar-nav navbar-text mr-auto'>
+                <li class="navbar-text"></li>
+            </ul>
+
+            <ul class='nav navbar-nav navbar-text mx-auto'>
+                <li class="navbar-brand"><a href="{% url 'home' %}"></a></li>
+            </ul>
+
+            <ul class='nav navbar-nav navbar-text ml-auto'>
+                <li class="navbar-text" style='font-size:20px; color:azure; font-family:cursive; padding:5px 25px;'>Welcome Stranger</li>
+                <li class="navbar-text"><a class="btn btn-info" href="{% url 'login' %}" style='width: 120px;'>Login</a></li>
+                <li class="navbar-text"><a class="btn btn-info" href="{% url 'signup' %}" style='width: 120px;'>Sign up</a></li>
+            </ul>
+
+            {% endif %}
+
+        </div>
+    </nav>
+
+    <div class='container-fluid'>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    </div>
+
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

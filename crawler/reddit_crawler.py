@@ -169,17 +169,6 @@ class RedditCrawler:
 
 if __name__ == "__main__":
 
-    # login = {
-    #         "client_id": "RWCcYftuTqygcUTC6EYGBw",
-    #         "client_secret": "7y_ZVwwCPnpF_gKDV7sp7Vymq52nZQ",
-    #         "password": "89Aether",
-    #         "user_agent": "test-agent",
-    #         "username": "Stardustorwell"
-    #         }
-
-    # with open("login/praw_login.json", "w") as json_file:
-    #     json.dump(login, json_file, indent=2)
-
     try: 
         with open("login/praw_login.json") as json_file:
             login = json.load(json_file)

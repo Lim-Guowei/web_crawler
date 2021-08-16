@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Insert data{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <script type="text/javascript">alert("{{ message }}")</script>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="form-horizontal" action="{{ HTTP_HOST }}/webcrawlerapp/insert/">
+                {% csrf_token %}  
+            <div class="container-fluid">  
+            <br>  
+                <div class="form-group">  
+                <label class="col-sm-1 col-form-label"></label>  
+                    <div class="col-sm-4">      
+                    <h3>Get data</h3>
+                    </div>  
+                </div>
+
+                <div class="form-group">  
+                    
+                    <label class="col-sm-2 col-form-label">Subreddit (excludes r/ prefix):<strong style="color:red;">*</strong></label>
+                    <input type="text" name="subreddit" id="id_subreddit" style="width: 30%;">
+                    <br>
+
+                    <label class="col-sm-2 col-form-label">Submission:<strong style="color:red;">*</strong></label>
+                    <input type="text" name="submission" id="id_submission" style="width: 80%;">
+                    <br>
+                    <label class="col-sm-2 col-form-label"><strong style="color:red;">*</strong>denotes mandatory field</label>
+                </div>
+
+                <div>
+                    <label class="col-sm-2 col-form-label"><b>Reference 1</b></label>
+                    <br>
+                    <label class="col-sm-2 col-form-label">Subreddit: redditdev</label>
+                    <br>
+                    <label class="col-sm-2 col-form-label">Submission: https://www.reddit.com/r/redditdev/comments/g6p9gu/how_to_get_all_comments_using_praw/</label>
+                    <br>
+                    <label class="col-sm-2 col-form-label"><b>Reference 2</b></label>
+                    <br>
+                    <label class="col-sm-2 col-form-label">Subreddit: Singapore</label>
+                    <br>
+                    <label class="col-sm-2 col-form-label">Submission: https://www.reddit.com/r/singapore/comments/ku4nla/for_science_122_mrt_stations_6_lrt_stations/</label>
+                </div>
+
+                <div class="form-group">  
+                    <label class="col-sm-1 col-form-label"></label>  
+                        <div class="col-sm-4">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="btn btn-success">Submit</button>  
+                </div>
+            </div>  
+        </form>  
+    {% else %}
+        <br>
+        <img src="{% static 'images/Nice.jpg' %}" alt="Image file is missing" class='img-fluid mx-auto d-block'>
+        <script type="text/javascript">alert("Please login first!")</script>
+    {% endif %}
+{% endblock %}  

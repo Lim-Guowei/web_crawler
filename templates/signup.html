@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign up for an account{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <script type="text/javascript">alert("You are logged in already!")</script>
+    {% else %}
+        <h2>Enter your information</h2>
+        <br>
+        <form method="post" class="form-horizontal">
+            <div class="container-fluid">  
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success" style='width: 200px;'>Sign up</button>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

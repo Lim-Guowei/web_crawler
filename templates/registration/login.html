@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Log in to your account{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <script type="text/javascript">alert("You are logged in already!")</script>
+    {% else %}
+        <h2>Login</h2>
+        <br>
+        <form method="post" class="form-horizontal">
+            <div class="container-fluid">  
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success" style='width: 200px;'>Login</button>
+                <p><a href="{% url 'password_reset' %}">Forgot account ?</a></p>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
