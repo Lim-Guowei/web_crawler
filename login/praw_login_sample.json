@@ -1,0 +1,7 @@
+{
+  "client_id": "myclientid",
+  "client_secret": "myclientsecret",
+  "password": "mypassword",
+  "user_agent": "myuseragent",
+  "username": "myusername"
+}
