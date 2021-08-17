@@ -43,7 +43,6 @@ def show(request, model_to_display="Submission"):
         model_to_display = request.session["model_to_display"]
 
     intial_display = get_model_into_template_table("comment", "", model=models.get(model_to_display))
-    print()
     data, field, model = intial_display[0], intial_display[1], intial_display[2]
     
     if 'model' in request.POST:
@@ -55,7 +54,7 @@ def show(request, model_to_display="Submission"):
             data, field, model = choicefield_display[0], choicefield_display[1], choicefield_display[2]
     else:
         form = DataForm(initial={"model": model_to_display})
-    return render(request, "show.html", context={'data': data, 'form': form, 'field': field, 'model':model})
+    return render(request, "show.html", context={'data': data, 'form': form, 'field': field, 'model': model})
 
 def add_new(request):
     return render(request, "insert.html")
@@ -85,3 +84,43 @@ def delete(request):
         delete_data()
         messages.success(request, "All data has been deleted")
     return redirect("show")
+
+def filter_comment(request, model, author):
+    """
+    Filter author table using author name selected from comment table
+    """
+    if request.method == "GET":
+        if author != "None" and model == "Comment":
+                model_to_display = "Author"
+                form = DataForm(initial={"model": model_to_display})
+                display = get_model_into_template_table("comment", "", model=models.get(model_to_display))
+                data, field, model = display[0], display[1], display[2]
+                data_filtered = [t for t in data if t[0] == author]
+                return render(request, "show.html", context={'data': data_filtered, 'form': form, 'field': field, 'model': model})
+        else:
+            messages.error(request, "Unable to filter author using None")
+            return redirect("show")
+
+    elif request.method == "POST":
+        ### Return to show/ url when user select choice field after filtered comment is display
+        return redirect("show")
+
+def filter_submission(request, model, submission):
+    """
+    Filter comment table using submission_id selected from submission table
+    """
+    if request.method == "GET":
+        if submission != "None" and model == "Submission":
+                model_to_display = "Comment"
+                form = DataForm(initial={"model": model_to_display})
+                display = get_model_into_template_table("comment", "", model=models.get(model_to_display))
+                data, field, model = display[0], display[1], display[2]
+                data_filtered = [t for t in data if t[7] == submission]
+                return render(request, "show.html", context={'data': data_filtered, 'form': form, 'field': field, 'model': model})
+        else:
+            messages.error(request, "Unable to filter submission using None")
+            return redirect("show")
+
+    elif request.method == "POST":
+        ### Return to show/ url when user select choice field after filtered comment is display
+        return redirect("show")

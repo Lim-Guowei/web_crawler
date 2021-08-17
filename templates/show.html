@@ -43,7 +43,14 @@
                     {% for column in field %}
                         <th>{{ column }}</th>
                     {% endfor %}
-                    <!-- <th>Actions</th> -->
+                    
+                    {% if model == "Comment"%}
+                        <th>action</th>
+                    {% endif %}
+                    {% if model == "Submission"%}
+                        <th>action</th>
+                    {% endif %}
+                    
                 </tr>
                 </thead>
 
@@ -53,11 +60,18 @@
                     {% for value in row %}
                             <td>{{ value }}</td>
                         {% endfor %}
-                        <!-- <td>
-                            <a href="edit/{{ model }}/{{ row.0 }}"><span class="fas fa-edit"></span></a>
-                            <a href="delete/{{ model }}/{{ row.0 }}"><span class="fas fa-trash-alt"></span></a>
-                            <a href="download/{{ model }}/{{ row.0 }}"><span class="fas fa-save"></span></a>
-                        </td> -->
+
+                        {% if model == "Comment" %}
+                            <td>
+                                <a href="{{ HTTP_HOST }}/webcrawlerapp/filter_comment/{{ model }}/{{ row.2 }}"><span class="fas fa-filter"></span></a>
+                            </td>
+                        {% endif %}
+                        {% if model == "Submission" %}
+                        <td>
+                            <a href="{{ HTTP_HOST }}/webcrawlerapp/filter_submission/{{ model }}/{{ row.0 }}"><span class="fas fa-filter"></span></a>
+                        </td>
+                        {% endif %}
+
                     </tr>
                 {% endfor %}
                 </tbody>

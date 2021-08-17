@@ -188,9 +188,13 @@ if __name__ == "__main__":
             reddit_crawler.subreddit = "redditdev"
             reddit_crawler.submission = "https://www.reddit.com/r/redditdev/comments/g6p9gu/how_to_get_all_comments_using_praw/"
 
+            reddit_crawler.subreddit = "singapore"
+            reddit_crawler.submission = "https://www.reddit.com/r/singapore/comments/p64y0d/teaching_in_singapore_is_it_better_to_be_an_moe/"
+
             submission_data = reddit_crawler.get_info_from_submission()
             authors = reddit_crawler.get_authors_in_submission(submission_data)
             author_data = reddit_crawler.get_info_from_authors(authors, limit=5)
+            print(authors)
 
         except OAuthException as e:
             print("Invalid praw login details")
