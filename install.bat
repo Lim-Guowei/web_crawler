@@ -6,11 +6,12 @@ SET /P AREYOUSURE=Are you sure (Y/[N])?
 IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
 set /p condapath=<condapath.txt
 set CONDAPATH=%condapath%
-call conda create -y -n web-crawler python=3.6
-call conda activate web-crawler
+call conda create -y -n web-crawler-reddit python=3.6
+call conda activate web-crawler-reddit
 call conda install -y -c anaconda django
 call conda install -y -c conda-forge praw
 call pip install mysql-connector-python
+call pip install mysqlclient
 call conda deactivate
 ECHO Installation completed
 endlocal
