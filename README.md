@@ -1,4 +1,6 @@
 ## **A web crawler application**  
+
+A web-based application which retrieves and stores Reddit submission and User data based on submission URL search. Retrieved data is stored in a MySQL database for which the interaction is handled via Django web-based graphical user interface.
  
 ### **BUILD**  
 #### **Anaconda**  

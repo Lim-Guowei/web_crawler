@@ -1,4 +1,5 @@
 .vscode
+__pycache__/
 login/praw_login.json
 login/database_login.json
 TA_Gregory.txt
